@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 
 const ModalTrigger = ({
   buttonRef,
@@ -6,4 +6,4 @@ const ModalTrigger = ({
   text
 }) => <button className="c-btn" onClick={onOpen} ref={buttonRef}>{text}</button>;
 
-export default ModalTrigger;
+export default memo(ModalTrigger);

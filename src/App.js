@@ -22,6 +22,6 @@ const App = () => {
       <p>Sed eu malesuada felis. Duis facilisis varius orci, quis mollis enim porttitor a. Nam dictum vulputate libero, id dapibus turpis gravida vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet arcu in dolor feugiat ornare in ut orci. Donec sem purus, vehicula et metus quis, commodo tempus nisl. Aliquam efficitur lectus magna. Donec tempus vitae tortor vel ultricies. Nunc semper nunc eros, nec iaculis mi tincidunt a.</p>
     </main>
   );
-}
+};
 
 export default App;

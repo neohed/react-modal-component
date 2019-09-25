@@ -1,54 +1,59 @@
-import React, { Component, Fragment } from 'react';
-import ModalTrigger from './ModalTrigger';
-import ModalContent from './ModalContent';
+import React, { useRef, useState, useLayoutEffect, Fragment } from 'react'
+import ScrollLock from 'react-scrolllock'
+import PropTypes from 'prop-types'
+import ModalTrigger from './ModalTrigger'
+import ModalContent from './ModalContent'
 
-class Modal extends Component {
-  state = { isOpen: false };
+const Modal = ({ariaLabel, children, triggerText, role}) => {
+  const openButtonNode = useRef(null);
+  const closeButtonNode = useRef(null);
+  const modalNode = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-  onOpen = () => {
-    this.setState({ isOpen: true }, () => {
-      this.closeButtonNode.focus();
-    });
-    this.toggleScrollLock();
+  const onOpen = () => setIsOpen(true);
+  const onClose = () => setIsOpen(false);
+
+  const onClickAway = (e) => {
+    if (modalNode.current && modalNode.current.contains(e.target)) return;
+    onClose();
   };
 
-  onClose = () => {
-    this.setState({ isOpen: false });
-    this.openButtonNode.focus();
-    this.toggleScrollLock();
-  };
+  useLayoutEffect(() => {
+    if (isOpen) {
+      closeButtonNode.current.focus();
+    } else {
+      openButtonNode.current.focus();
+    }
+  }, [isOpen]);
 
-  onClickAway = (e) => {
-    if (this.modalNode && this.modalNode.contains(e.target)) return;
-    this.onClose();
-  };
-
-  toggleScrollLock = () => document.querySelector('html').classList.toggle('u-lock-scroll');
-
-  render() {
-    const { isOpen } = this.state;
-    const { ariaLabel, children, triggerText, role } = this.props;
-    return (
+  return (
       <Fragment>
+        <ScrollLock isActive={isOpen} />
         <ModalTrigger
-          onOpen={this.onOpen}
-          buttonRef={n => this.openButtonNode = n}
-          text={triggerText}
+            onOpen={onOpen}
+            buttonRef={openButtonNode}
+            text={triggerText}
         />
         {isOpen &&
-          <ModalContent
+        <ModalContent
             ariaLabel={ariaLabel}
-            buttonRef={n => this.closeButtonNode = n}
-            modalRef={n => this.modalNode = n}
+            buttonRef={closeButtonNode}
+            modalRef={modalNode}
             content={children}
-            onClickAway={this.onClickAway}
-            onClose={this.onClose}
+            onClickAway={onClickAway}
+            onClose={onClose}
             role={role}
-          />
+        />
         }
       </Fragment>
-    );
-  }
-}
+  );
+};
+
+Modal.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  triggerText: PropTypes.string.isRequired,
+  role: PropTypes.string
+};
 
 export default Modal;

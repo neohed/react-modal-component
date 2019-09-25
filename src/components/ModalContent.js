@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import ReactDOM from 'react-dom';
 import ReactFocusTrap from 'focus-trap-react';
 
@@ -14,7 +14,6 @@ const ModalContent = ({
   return ReactDOM.createPortal(
     <ReactFocusTrap
       tag="aside"
-      focusTrapOptions={{ onDeactivate: onClose }}
       className="c-modal-cover"
       role={role}
       aria-label={ariaLabel}
@@ -33,6 +32,6 @@ const ModalContent = ({
     </ReactFocusTrap>,
     document.body
   );
-}
+};
 
-export default ModalContent;
+export default memo(ModalContent);
