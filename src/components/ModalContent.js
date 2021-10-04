@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactFocusTrap from 'focus-trap-react';
 
@@ -34,4 +34,4 @@ const ModalContent = ({
   );
 };
 
-export default memo(ModalContent);
+export default ModalContent;
